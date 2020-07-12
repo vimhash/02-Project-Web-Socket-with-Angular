@@ -1,11 +1,14 @@
 const express = require("express"),
   bodyParser = require("body-parser"),
+  connectDB = require("../config/db"),
   passport = require("passport"),
   cors = require("cors"),
   parseurl = require("parseurl");
 
 let app = express(),
   session = require("express-session"),
+  userRoutes = require("../routes/users.routes"),
+  db = connectDB(),
   sess = {
     //SESSION CONFIG
     secret: process.env.KEY_SESSION,
@@ -54,5 +57,7 @@ app.get("/", (req, res) => {
     `Your session: ${req.sessionID}, number of visits: ${req.session.views["/"]} times`
   );
 });
+
+app.use("/api", userRoutes);
 
 module.exports = app;

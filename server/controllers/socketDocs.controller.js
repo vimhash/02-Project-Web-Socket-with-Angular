@@ -2,23 +2,23 @@ let manageDocs = (http) => {
   let io = require("socket.io")(http),
     socketJwt = require("socketio-jwt");
 
-  // io.use(
-  //   socketJwt.authorize({
-  //     secret: process.env.KEY_JWT,
-  //     handshake: true,
-  //   })
-  // );
-
   io.use(
     socketJwt.authorize({
-      secret: (req, decodedToken, callback) => {
-        console.log(req._query.sessionID);
-        callback(null, req._query.sessionID);
-        //.then() hacer algo cuando funcione .catch() en caso de error
-      },
+      secret: process.env.KEY_JWT,
       handshake: true,
     })
   );
+
+  // io.use(
+  //   socketJwt.authorize({
+  //     secret: (req, decodedToken, callback) => {
+  //       console.log(req._query.sessionID);
+  //       callback(null, req._query.sessionID);
+  //       //.then() hacer algo cuando funcione .catch() en caso de error
+  //     },
+  //     handshake: true,
+  //   })
+  // );
 
   const getData = {}; //lista de salas/documentos
 
@@ -31,7 +31,7 @@ let manageDocs = (http) => {
       previousId = currentId;
     };
 
-    console.log(socket.handshake);
+    //console.log(socket.handshake);
     socket.on("getDoc", (id) => {
       // if (doc.docPassword == "12345") {
       safeJoin(id);
@@ -59,9 +59,9 @@ let manageDocs = (http) => {
       socket.to(doc.id).emit("manageData", doc);
     });
 
-    socket.on("disconnect", () => {
-      console.log("Client disconnected");
-    });
+    // socket.on("disconnect", () => {
+    //   console.log("Client disconnected");
+    // });
 
     io.emit("getData", Object.keys(getData));
   });
