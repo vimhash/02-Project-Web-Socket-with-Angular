@@ -32,6 +32,7 @@ let manageDocs = (http) => {
     };
 
     //console.log(socket.handshake);
+
     socket.on("getDoc", (id) => {
       // if (doc.docPassword == "12345") {
       safeJoin(id);
@@ -51,6 +52,7 @@ let manageDocs = (http) => {
       getData[doc.id] = doc;
       safeJoin(doc.id);
       io.emit("getData", Object.keys(getData));
+      // console.log(Object.values(getData));
       socket.emit("manageData", doc);
     });
 

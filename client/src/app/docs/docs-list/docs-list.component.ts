@@ -18,32 +18,39 @@ export class DocsListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.docs = this.docsService.docs;
+    // this._docSubscribe = this.docsService.currentDoc.subscribe(
+    //   (doc) => ((this.currentDoc = doc.id), (this.docAuth = doc))
+    // );
     this._docSubscribe = this.docsService.currentDoc.subscribe(
-      (doc) => ((this.currentDoc = doc.id), (this.docAuth = doc))
+      (doc) => (
+        (this.currentDoc = doc.id), console.log('oninit'), (this.docAuth = doc)
+      )
     );
   }
 
   ngOnDestroy() {
     this._docSubscribe.unsubscribe();
+    console.log('test');
   }
 
-  getDoc(id: string) {
+  getDoc = async (id: string) => {
     this.docsService.getDoc(id);
 
     let roomName = prompt('Access name');
 
     if (this.docAuth.roomName === roomName) {
       let roomPassword = prompt('Room password');
-
       if (this.docAuth.roomPassword === roomPassword) {
         this.docsService.getDoc(id);
       } else {
+        this.ngOnDestroy();
         alert('Wrong password, try again');
       }
     } else {
+      this.ngOnDestroy();
       alert('Wrong room name, try again');
     }
-  }
+  };
 
   addDoc() {
     let roomName = prompt('Pls, write a name for your document'),
