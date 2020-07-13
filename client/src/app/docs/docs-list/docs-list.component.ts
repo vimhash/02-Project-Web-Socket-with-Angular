@@ -14,23 +14,22 @@ export class DocsListComponent implements OnInit, OnDestroy {
   docAuth: any;
   private _docSubscribe: Subscription;
 
-  constructor(private docsService: DocsService, private router: Router) {}
+  constructor(private docsService: DocsService, private router: Router) {
+    
+  }
 
   ngOnInit(): void {
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     this.docs = this.docsService.docs;
-    // this._docSubscribe = this.docsService.currentDoc.subscribe(
-    //   (doc) => ((this.currentDoc = doc.id), (this.docAuth = doc))
-    // );
     this._docSubscribe = this.docsService.currentDoc.subscribe(
       (doc) => (
-        (this.currentDoc = doc.id), console.log('oninit'), (this.docAuth = doc)
+        (this.currentDoc = doc.id), (this.docAuth = doc)
       )
     );
   }
 
   ngOnDestroy() {
     this._docSubscribe.unsubscribe();
-    console.log('test');
   }
 
   getDoc = async (id: string) => {
@@ -42,13 +41,15 @@ export class DocsListComponent implements OnInit, OnDestroy {
       let roomPassword = prompt('Room password');
       if (this.docAuth.roomPassword === roomPassword) {
         this.docsService.getDoc(id);
+        this.router.navigate(['/docs/doc']);
       } else {
-        this.ngOnDestroy();
         alert('Wrong password, try again');
       }
     } else {
-      this.ngOnDestroy();
       alert('Wrong room name, try again');
+    //       this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+    //   this.router.navigate(['/docs/docs_list']);
+    // });
     }
   };
 

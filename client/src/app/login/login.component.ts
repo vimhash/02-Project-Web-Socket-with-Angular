@@ -52,6 +52,7 @@ export class LoginComponent implements OnInit {
       (res: DataRx) => {
         if (res.ok) {
           if (this.permissions.decodeToken(res.token)) {
+            sessionStorage.setItem("token", this.permissions.getToken())
             this.router.navigate(['/home']);
             // console.log(this.permissions.getUserLogin());
           }

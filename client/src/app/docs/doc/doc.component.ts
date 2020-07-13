@@ -5,6 +5,7 @@ import { DocsService } from '../../services/docs.service';
 import { Docs } from '../../models/docs';
 import jwt_decode from 'jwt-decode';
 import { PermissionsService } from '../../services/permissions.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-doc',
@@ -18,7 +19,8 @@ export class DocComponent implements OnInit, OnDestroy {
 
   constructor(
     private docsService: DocsService,
-    private permissions: PermissionsService
+    private permissions: PermissionsService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -45,9 +47,15 @@ export class DocComponent implements OnInit, OnDestroy {
   }
 
   private _getuser() {
-    let token = this.permissions.getToken();
-    let decoded = jwt_decode(token);
+    // let token = this.permissions.getToken();
+    // let decoded = jwt_decode(token);
+    
+    let decoded = jwt_decode(sessionStorage.getItem("token"));
 
     this.document.userName = decoded.data.name;
+  }
+
+  goDocsList() {
+    this.router.navigate(['/docs/docs_list']);
   }
 }
