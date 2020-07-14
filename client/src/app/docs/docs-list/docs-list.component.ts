@@ -15,11 +15,10 @@ export class DocsListComponent implements OnInit, OnDestroy {
   private _docSubscribe: Subscription;
 
   constructor(private docsService: DocsService, private router: Router) {
-    
+    window.location.reload()
   }
 
   ngOnInit(): void {
-    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     this.docs = this.docsService.docs;
     this._docSubscribe = this.docsService.currentDoc.subscribe(
       (doc) => (
