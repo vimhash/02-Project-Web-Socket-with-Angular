@@ -49,8 +49,8 @@ export class DocComponent implements OnInit, OnDestroy {
   private _getuser() {
     // let token = this.permissions.getToken();
     // let decoded = jwt_decode(token);
-    
-    let decoded = jwt_decode(sessionStorage.getItem("token"));
+
+    let decoded = jwt_decode(sessionStorage.getItem('token'));
 
     this.document.userName = decoded.data.name;
   }

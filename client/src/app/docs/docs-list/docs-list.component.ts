@@ -15,15 +15,13 @@ export class DocsListComponent implements OnInit, OnDestroy {
   private _docSubscribe: Subscription;
 
   constructor(private docsService: DocsService, private router: Router) {
-    window.location.reload()
+    // window.location.reload()
   }
 
   ngOnInit(): void {
     this.docs = this.docsService.docs;
     this._docSubscribe = this.docsService.currentDoc.subscribe(
-      (doc) => (
-        (this.currentDoc = doc.id), (this.docAuth = doc)
-      )
+      (doc) => ((this.currentDoc = doc.id), (this.docAuth = doc))
     );
   }
 
@@ -46,9 +44,9 @@ export class DocsListComponent implements OnInit, OnDestroy {
       }
     } else {
       alert('Wrong room name, try again');
-    //       this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-    //   this.router.navigate(['/docs/docs_list']);
-    // });
+      //       this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      //   this.router.navigate(['/docs/docs_list']);
+      // });
     }
   };
 

@@ -32,29 +32,36 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this._loginForm();
+    // this.dataLogin = {
+    //   data: {
+    //     email: this.loginForm.get('email').value,
+    //     password: this.loginForm.get('password').value,
+    //   },
+    // };
+  }
+
+  _loginForm = () => {
+    this.loginForm = this.formBuilder.group({
+      email: ['', [Validators.required]],
+      password: ['', [Validators.required]],
+    });
+  };
+
+  login(): void {
     this.dataLogin = {
       data: {
         email: this.loginForm.get('email').value,
         password: this.loginForm.get('password').value,
       },
     };
-  }
 
-  _loginForm = () => {
-    this.loginForm = this.formBuilder.group({
-      email: ['johao@gmail.com', [Validators.required]],
-      password: ['1234', [Validators.required]],
-    });
-  };
-
-  login(): void {
     this.loginService.logIn(this.dataLogin).subscribe(
       (res: DataRx) => {
         if (res.ok) {
           if (this.permissions.decodeToken(res.token)) {
-            sessionStorage.setItem("token", this.permissions.getToken())
+            sessionStorage.setItem('token', this.permissions.getToken());
             this.router.navigate(['/home']);
-            // console.log(this.permissions.getUserLogin());
+            console.log(this.permissions.getUserLogin());
           }
         } else {
           this.dataLogin.data.email = '';
@@ -69,8 +76,6 @@ export class LoginComponent implements OnInit {
         }
       },
       (error) => {
-        this.dataLogin.data.email = '';
-        this.dataLogin.data.password = '';
         console.log(error);
       }
     );
