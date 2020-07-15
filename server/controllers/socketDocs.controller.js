@@ -1,5 +1,5 @@
-let manageDocs = (http) => {
-  let io = require("socket.io")(http),
+let manageDocs = (https) => {
+  let io = require("socket.io")(https),
     socketJwt = require("socketio-jwt");
 
   io.use(

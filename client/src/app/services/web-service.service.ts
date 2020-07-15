@@ -9,7 +9,7 @@ export class WebServiceService {
   private url: string;
 
   constructor(private permissions: PermissionsService) {
-    this.url = 'http://localhost:3500/api/';
+    this.url = 'https://localhost:3500/api/';
   }
 
   getUrl(): string {
